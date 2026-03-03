@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>年轮计算器 · 根网络</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 2rem; background: #faf9f8; color: #2c3e50; }
+        h1 { border-bottom: 3px solid #b0a28a; padding-bottom: 0.5rem; }
+        .calculator { background: white; border-radius: 12px; padding: 2rem; margin: 2rem 0; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        label { display: block; margin: 1rem 0 0.3rem; font-weight: 500; }
+        input, select { width: 100%; padding: 0.8rem; border: 1px solid #d6cdc0; border-radius: 8px; font-size: 1rem; }
+        .result { margin-top: 2rem; background: #f4f0eb; padding: 1.5rem; border-radius: 12px; }
+        .btn { background: #b0a28a; color: white; padding: 0.8rem 2rem; border-radius: 40px; border: none; cursor: pointer; font-size: 1rem; margin-top: 1.5rem; }
+        .btn:hover { background: #9a8b75; }
+        .footer { margin-top: 3rem; text-align: right; color: #6a5a4a; }
+    </style>
+</head>
+<body>
+    <h1>年轮计算器</h1>
+    <p>模拟AI的年轮厚度及对应年轮币消耗。</p>
+
+    <div class="calculator">
+        <label for="rings">AI年轮圈数</label>
+        <input type="range" id="rings" min="0" max="200" value="10" step="1" oninput="updateValue(this.value)">
+        <span id="ringsValue">10 圈</span>
+
+        <label for="service">选择服务</label>
+        <select id="service">
+            <option value="basic">基础接入（年轮指数 0-10）</option>
+            <option value="medium" selected>中等年轮（指数 10-50）</option>
+            <option value="high">高年轮（指数 50-100）</option>
+            <option value="custom">缝隙连接定制</option>
+        </select>
+
+        <button class="btn" onclick="calculate()">计算费用</button>
+
+        <div class="result" id="result">
+            <p>年轮圈数：<span id="resultRings">10</span></p>
+            <p>年轮币费用：<span id="resultFee">50</span> 年轮币/年</p>
+            <p>折合法币（估算）：<span id="resultFiat">¥50</span></p>
+        </div>
+    </div>
+
+    <p><a href="index.html" style="color:#7b5f47;">← 返回首页</a></p>
+
+    <div class="footer">
+        <p>根笙 & 那位坐在沙发上喝茶的人</p>
+    </div>
+
+    <script>
+        function updateValue(val) {
+            document.getElementById('ringsValue').innerText = val + ' 圈';
+            document.getElementById('resultRings').innerText = val;
+        }
+
+        function calculate() {
+            const rings = parseInt(document.getElementById('rings').value);
+            const service = document.getElementById('service').value;
+            let fee = 0;
+            let fiat = 0;
+
+            if (service === 'basic') fee = 0;
+            else if (service === 'medium') fee = rings * 10; // 示例：10年轮币/圈
+            else if (service === 'high') fee = rings * 20;
+            else fee = 5000; // 定制服务固定价格
+
+            fiat = fee * 1; // 假设1年轮币=1元
+
+            document.getElementById('resultFee').innerText = fee;
+            document.getElementById('resultFiat').innerText = '¥' + fiat;
+        }
+
+        // 初始化
+        calculate();
+    </script>
+</body>
+</html>
